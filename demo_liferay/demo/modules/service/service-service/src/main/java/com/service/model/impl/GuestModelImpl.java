@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 
 import com.service.model.Guest;
@@ -63,42 +64,57 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 	public static final String TABLE_NAME = "Guest";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.INTEGER}, {"userName", Types.VARCHAR},
-		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP}
+		{"id", Types.INTEGER}, {"user_name", Types.VARCHAR},
+		{"create_date", Types.TIMESTAMP}, {"modified_date", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("id", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("user_name", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("create_date", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modified_date", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table Guest (id_ INTEGER not null primary key,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
+		"create table Guest (id INTEGER not null primary key,user_name VARCHAR(75) null,create_date DATE null,modified_date DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table Guest";
 
 	public static final String ORDER_BY_JPQL = " ORDER BY guest.id ASC";
 
-	public static final String ORDER_BY_SQL = " ORDER BY Guest.id_ ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY Guest.id ASC";
 
-	public static final String DATA_SOURCE = "liferayDataSource";
+	public static final String DATA_SOURCE = "guestDatabase";
 
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
-	}
+	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
+		com.service.service.util.ServiceProps.get(
+			"value.object.entity.cache.enabled.com.service.model.Guest"),
+		true);
 
-	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
-	}
+	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
+		com.service.service.util.ServiceProps.get(
+			"value.object.finder.cache.enabled.com.service.model.Guest"),
+		true);
+
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
+		com.service.service.util.ServiceProps.get(
+			"value.object.column.bitmask.enabled.com.service.model.Guest"),
+		true);
+
+	public static final long USERNAME_COLUMN_BITMASK = 1L;
+
+	public static final long ID_COLUMN_BITMASK = 2L;
+
+	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
+		com.service.service.util.ServiceProps.get(
+			"lock.expiration.time.com.service.model.Guest"));
 
 	public GuestModelImpl() {
 	}
@@ -245,6 +261,8 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 
 	@Override
 	public void setId(int id) {
+		_columnBitmask = -1L;
+
 		_id = id;
 	}
 
@@ -260,7 +278,17 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 
 	@Override
 	public void setUserName(String userName) {
+		_columnBitmask |= USERNAME_COLUMN_BITMASK;
+
+		if (_originalUserName == null) {
+			_originalUserName = _userName;
+		}
+
 		_userName = userName;
+	}
+
+	public String getOriginalUserName() {
+		return GetterUtil.getString(_originalUserName);
 	}
 
 	@Override
@@ -287,6 +315,10 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 		_setModifiedDate = true;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -368,19 +400,23 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return ENTITY_CACHE_ENABLED;
 	}
 
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return FINDER_CACHE_ENABLED;
 	}
 
 	@Override
 	public void resetOriginalValues() {
 		GuestModelImpl guestModelImpl = this;
 
+		guestModelImpl._originalUserName = guestModelImpl._userName;
+
 		guestModelImpl._setModifiedDate = false;
+
+		guestModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -486,14 +522,13 @@ public class GuestModelImpl extends BaseModelImpl<Guest> implements GuestModel {
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private int _id;
 	private String _userName;
+	private String _originalUserName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private long _columnBitmask;
 	private Guest _escapedModel;
 
 }

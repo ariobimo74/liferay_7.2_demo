@@ -14,11 +14,7 @@
 
 package com.service.service.impl;
 
-import com.liferay.portal.aop.AopService;
-
 import com.service.service.base.GuestLocalServiceBaseImpl;
-
-import org.osgi.service.component.annotations.Component;
 
 /**
  * The implementation of the guest local service.
@@ -33,10 +29,6 @@ import org.osgi.service.component.annotations.Component;
  * @author Brian Wing Shun Chan
  * @see GuestLocalServiceBaseImpl
  */
-@Component(
-	property = "model.class.name=com.service.model.Guest",
-	service = AopService.class
-)
 public class GuestLocalServiceImpl extends GuestLocalServiceBaseImpl {
 
 	/*

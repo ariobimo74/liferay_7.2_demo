@@ -14,7 +14,7 @@
 
 package com.service.service.base;
 
-import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
@@ -32,10 +32,13 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
+import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
+import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import com.service.model.Guest;
 import com.service.service.GuestLocalService;
@@ -48,7 +51,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.osgi.annotation.versioning.ProviderType;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides the base implementation for the guest local service.
@@ -64,7 +66,7 @@ import org.osgi.service.component.annotations.Reference;
 @ProviderType
 public abstract class GuestLocalServiceBaseImpl
 	extends BaseLocalServiceImpl
-	implements GuestLocalService, AopService, IdentifiableOSGiService {
+	implements GuestLocalService, IdentifiableOSGiService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -320,17 +322,179 @@ public abstract class GuestLocalServiceBaseImpl
 		return guestPersistence.update(guest);
 	}
 
-	@Override
-	public Class<?>[] getAopInterfaces() {
-		return new Class<?>[] {
-			GuestLocalService.class, IdentifiableOSGiService.class,
-			PersistedModelLocalService.class
-		};
+	/**
+	 * Returns the guest local service.
+	 *
+	 * @return the guest local service
+	 */
+	public GuestLocalService getGuestLocalService() {
+		return guestLocalService;
 	}
 
-	@Override
-	public void setAopProxy(Object aopProxy) {
-		guestLocalService = (GuestLocalService)aopProxy;
+	/**
+	 * Sets the guest local service.
+	 *
+	 * @param guestLocalService the guest local service
+	 */
+	public void setGuestLocalService(GuestLocalService guestLocalService) {
+		this.guestLocalService = guestLocalService;
+	}
+
+	/**
+	 * Returns the guest persistence.
+	 *
+	 * @return the guest persistence
+	 */
+	public GuestPersistence getGuestPersistence() {
+		return guestPersistence;
+	}
+
+	/**
+	 * Sets the guest persistence.
+	 *
+	 * @param guestPersistence the guest persistence
+	 */
+	public void setGuestPersistence(GuestPersistence guestPersistence) {
+		this.guestPersistence = guestPersistence;
+	}
+
+	/**
+	 * Returns the counter local service.
+	 *
+	 * @return the counter local service
+	 */
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
+		return counterLocalService;
+	}
+
+	/**
+	 * Sets the counter local service.
+	 *
+	 * @param counterLocalService the counter local service
+	 */
+	public void setCounterLocalService(
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
+		this.counterLocalService = counterLocalService;
+	}
+
+	/**
+	 * Returns the class name local service.
+	 *
+	 * @return the class name local service
+	 */
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
+		return classNameLocalService;
+	}
+
+	/**
+	 * Sets the class name local service.
+	 *
+	 * @param classNameLocalService the class name local service
+	 */
+	public void setClassNameLocalService(
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
+		this.classNameLocalService = classNameLocalService;
+	}
+
+	/**
+	 * Returns the class name persistence.
+	 *
+	 * @return the class name persistence
+	 */
+	public ClassNamePersistence getClassNamePersistence() {
+		return classNamePersistence;
+	}
+
+	/**
+	 * Sets the class name persistence.
+	 *
+	 * @param classNamePersistence the class name persistence
+	 */
+	public void setClassNamePersistence(
+		ClassNamePersistence classNamePersistence) {
+
+		this.classNamePersistence = classNamePersistence;
+	}
+
+	/**
+	 * Returns the resource local service.
+	 *
+	 * @return the resource local service
+	 */
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
+		return resourceLocalService;
+	}
+
+	/**
+	 * Sets the resource local service.
+	 *
+	 * @param resourceLocalService the resource local service
+	 */
+	public void setResourceLocalService(
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
+		this.resourceLocalService = resourceLocalService;
+	}
+
+	/**
+	 * Returns the user local service.
+	 *
+	 * @return the user local service
+	 */
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
+		return userLocalService;
+	}
+
+	/**
+	 * Sets the user local service.
+	 *
+	 * @param userLocalService the user local service
+	 */
+	public void setUserLocalService(
+		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
+		this.userLocalService = userLocalService;
+	}
+
+	/**
+	 * Returns the user persistence.
+	 *
+	 * @return the user persistence
+	 */
+	public UserPersistence getUserPersistence() {
+		return userPersistence;
+	}
+
+	/**
+	 * Sets the user persistence.
+	 *
+	 * @param userPersistence the user persistence
+	 */
+	public void setUserPersistence(UserPersistence userPersistence) {
+		this.userPersistence = userPersistence;
+	}
+
+	public void afterPropertiesSet() {
+		persistedModelLocalServiceRegistry.register(
+			"com.service.model.Guest", guestLocalService);
+	}
+
+	public void destroy() {
+		persistedModelLocalServiceRegistry.unregister(
+			"com.service.model.Guest");
 	}
 
 	/**
@@ -375,25 +539,44 @@ public abstract class GuestLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = GuestLocalService.class)
 	protected GuestLocalService guestLocalService;
 
-	@Reference
+	@BeanReference(type = GuestPersistence.class)
 	protected GuestPersistence guestPersistence;
 
-	@Reference
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
 	protected com.liferay.counter.kernel.service.CounterLocalService
 		counterLocalService;
 
-	@Reference
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
 	protected com.liferay.portal.kernel.service.ClassNameLocalService
 		classNameLocalService;
 
-	@Reference
+	@ServiceReference(type = ClassNamePersistence.class)
+	protected ClassNamePersistence classNamePersistence;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
 	protected com.liferay.portal.kernel.service.ResourceLocalService
 		resourceLocalService;
 
-	@Reference
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
+
+	@ServiceReference(type = UserPersistence.class)
+	protected UserPersistence userPersistence;
+
+	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
 
 }

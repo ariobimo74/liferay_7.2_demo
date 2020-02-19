@@ -17,7 +17,7 @@ package com.service.model.impl;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * The extended model implementation for the Guest service. Represents a row in the &quot;guest&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the Guest service. Represents a row in the &quot;Guest&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
  * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.service.model.Guest</code> interface.
