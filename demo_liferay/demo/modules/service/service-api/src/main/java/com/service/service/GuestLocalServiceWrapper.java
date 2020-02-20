@@ -44,6 +44,25 @@ public class GuestLocalServiceWrapper
 		return _guestLocalService.addGuest(guest);
 	}
 
+	@Override
+	public com.service.model.Guest addGuest(int id, String userName)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestLocalService.addGuest(id, userName);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.util.OrderByComparator
+		<com.service.model.Guest> comparator(String columnn, boolean isAsc) {
+
+		return _guestLocalService.comparator(columnn, isAsc);
+	}
+
+	@Override
+	public int countByUserName(String userName) {
+		return _guestLocalService.countByUserName(userName);
+	}
+
 	/**
 	 * Creates a new guest with the primary key. Does not add the guest to the database.
 	 *
@@ -186,6 +205,15 @@ public class GuestLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.service.model.Guest> findByUserName(
+		String userName, int start, int end, String orderByColumn,
+		boolean isAsc) {
+
+		return _guestLocalService.findByUserName(
+			userName, start, end, orderByColumn, isAsc);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -204,6 +232,20 @@ public class GuestLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _guestLocalService.getGuest(id);
+	}
+
+	@Override
+	public java.util.List<com.service.model.Guest> getGuest(
+		int start, int end) {
+
+		return _guestLocalService.getGuest(start, end);
+	}
+
+	@Override
+	public java.util.List<com.service.model.Guest> getGuest(
+		int start, int end, String orderByColumn, boolean isAsc) {
+
+		return _guestLocalService.getGuest(start, end, orderByColumn, isAsc);
 	}
 
 	/**
@@ -268,6 +310,13 @@ public class GuestLocalServiceWrapper
 	@Override
 	public com.service.model.Guest updateGuest(com.service.model.Guest guest) {
 		return _guestLocalService.updateGuest(guest);
+	}
+
+	@Override
+	public com.service.model.Guest updateGuest(int id, String userName)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestLocalService.updateGuest(id, userName);
 	}
 
 	@Override

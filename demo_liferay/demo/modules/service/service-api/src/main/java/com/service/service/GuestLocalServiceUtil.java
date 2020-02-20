@@ -52,6 +52,22 @@ public class GuestLocalServiceUtil {
 		return getService().addGuest(guest);
 	}
 
+	public static com.service.model.Guest addGuest(int id, String userName)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addGuest(id, userName);
+	}
+
+	public static com.liferay.portal.kernel.util.OrderByComparator
+		<com.service.model.Guest> comparator(String columnn, boolean isAsc) {
+
+		return getService().comparator(columnn, isAsc);
+	}
+
+	public static int countByUserName(String userName) {
+		return getService().countByUserName(userName);
+	}
+
 	/**
 	 * Creates a new guest with the primary key. Does not add the guest to the database.
 	 *
@@ -187,6 +203,14 @@ public class GuestLocalServiceUtil {
 		return getService().fetchGuest(id);
 	}
 
+	public static java.util.List<com.service.model.Guest> findByUserName(
+		String userName, int start, int end, String orderByColumn,
+		boolean isAsc) {
+
+		return getService().findByUserName(
+			userName, start, end, orderByColumn, isAsc);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -204,6 +228,18 @@ public class GuestLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getGuest(id);
+	}
+
+	public static java.util.List<com.service.model.Guest> getGuest(
+		int start, int end) {
+
+		return getService().getGuest(start, end);
+	}
+
+	public static java.util.List<com.service.model.Guest> getGuest(
+		int start, int end, String orderByColumn, boolean isAsc) {
+
+		return getService().getGuest(start, end, orderByColumn, isAsc);
 	}
 
 	/**
@@ -265,6 +301,12 @@ public class GuestLocalServiceUtil {
 		com.service.model.Guest guest) {
 
 		return getService().updateGuest(guest);
+	}
+
+	public static com.service.model.Guest updateGuest(int id, String userName)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateGuest(id, userName);
 	}
 
 	public static GuestLocalService getService() {

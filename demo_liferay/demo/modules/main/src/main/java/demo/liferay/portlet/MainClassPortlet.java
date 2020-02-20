@@ -1,16 +1,19 @@
 package demo.liferay.portlet;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.service.model.Guest;
 import com.service.service.GuestLocalService;
 import demo.liferay.constants.MainClassPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,16 +44,58 @@ public class MainClassPortlet extends MVCPortlet
 	@Reference
 	private GuestLocalService guestLocalService;
 
-	@Override
-	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException
+	public void addGuest(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, PortalException
 	{
-		Guest guest = guestLocalService.createGuest((int) CounterLocalServiceUtil.increment());
-		guest.setId(1);
-		guest.setUserName("Ario Bimo");
-		guest.setCreateDate(new Date());
-		guestLocalService.addGuest(guest);
-		System.out.println("guest successfully added");
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(Guest.class.getName(), actionRequest);
 
-		super.doView(renderRequest, renderResponse);
+		int id = ParamUtil.getInteger(actionRequest, "id");
+		String userName = ParamUtil.getString(actionRequest, "user_name");
+
+		if (id > 0)
+		{
+			try
+			{
+				guestLocalService.updateGuest
+				(
+						(int) serviceContext.getUserId(), userName
+				);
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+				PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+
+				actionResponse.getRenderParameters().setValue("mvcPath", "/guest/edit.jsp");
+			}
+		}
+		else
+		{
+			try
+			{
+				guestLocalService.addGuest
+						(
+								(int) serviceContext.getUserId(), userName
+						);
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+				PortalUtil.copyRequestParameters(actionRequest, actionResponse);
+
+				actionResponse.getRenderParameters().setValue("mvcPath", "/guest/edit.jsp");
+			}
+		}
+	}
+
+	public void deleteGuest(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, PortalException {
+		int id = ParamUtil.getInteger(actionRequest, "id");
+
+		try
+		{
+			guestLocalService.deleteGuest(id);
+		} catch (Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 }

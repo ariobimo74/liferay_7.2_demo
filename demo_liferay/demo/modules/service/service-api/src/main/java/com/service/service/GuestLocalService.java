@@ -71,6 +71,13 @@ public interface GuestLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Guest addGuest(Guest guest);
 
+	@Indexable(type = IndexableType.REINDEX)
+	public Guest addGuest(int id, String userName) throws PortalException;
+
+	public OrderByComparator<Guest> comparator(String columnn, boolean isAsc);
+
+	public int countByUserName(String userName);
+
 	/**
 	 * Creates a new guest with the primary key. Does not add the guest to the database.
 	 *
@@ -175,6 +182,10 @@ public interface GuestLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Guest fetchGuest(int id);
 
+	public List<Guest> findByUserName(
+		String userName, int start, int end, String orderByColumn,
+		boolean isAsc);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -187,6 +198,13 @@ public interface GuestLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Guest getGuest(int id) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guest> getGuest(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guest> getGuest(
+		int start, int end, String orderByColumn, boolean isAsc);
 
 	/**
 	 * Returns a range of all the guests.
@@ -233,5 +251,8 @@ public interface GuestLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Guest updateGuest(Guest guest);
+
+	@Indexable(type = IndexableType.REINDEX)
+	public Guest updateGuest(int id, String userName) throws PortalException;
 
 }
