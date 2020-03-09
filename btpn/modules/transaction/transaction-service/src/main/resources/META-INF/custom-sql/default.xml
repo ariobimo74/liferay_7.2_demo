@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<custom-sql>
+    <sql id="package transaction.service.persistence.TransactionSql.getTransactionById">
+        <![CDATA[
+        SELECT * FROM btpn_demo.transaction WHERE id = ?
+        ]]>
+    </sql>
+</custom-sql>

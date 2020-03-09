@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="transaction.model.Transaction">
+		<field name="id" type="int" />
+		<field name="createdOn" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="updatedOn" type="Date" />
+		<field name="updatedBy" type="String" />
+		<field name="deletedOn" type="Date" />
+		<field name="deletedBy" type="String" />
+		<field name="isDelete" type="boolean" />
+		<field name="transactionDate" type="Date" />
+		<field name="transactionWith" type="int" />
+		<field name="transactionTotal" type="long" />
+		<field name="note" type="String" />
+	</model>
+</model-hints>

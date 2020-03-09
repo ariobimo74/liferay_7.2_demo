@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd"
+>
+	<bean class="transaction.service.impl.TransactionLocalServiceImpl" id="transaction.service.TransactionLocalService" />
+	<bean class="transaction.service.impl.TransactionServiceImpl" id="transaction.service.TransactionService" />
+	<bean class="transaction.service.persistence.impl.TransactionPersistenceImpl" id="transaction.service.persistence.TransactionPersistence">
+		<property name="dataSource" ref="transactionDatasource" />
+	</bean>
+	<bean class="transaction.service.persistence.impl.TransactionFinderImpl" id="transaction.service.persistence.TransactionFinder">
+		<property name="dataSource" ref="transactionDatasource" />
+	</bean>
+</beans>

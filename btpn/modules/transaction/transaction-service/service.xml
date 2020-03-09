@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder dependency-injector="spring" package-path="transaction">
+	<namespace>Transaction</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity table="transaction" local-service="true" name="Transaction" remote-service="true" uuid="false" data-source="transactionDatasource">
+
+		<!-- PK fields -->
+
+		<column db-name="id" name="id" primary="true" type="int" />
+
+		<!-- Audit fields -->
+
+		<column db-name="created_on" name="createdOn" type="Date" />
+		<column db-name="created_by" name="createdBy" type="String" />
+		<column db-name="updated_on" name="updatedOn" type="Date" />
+		<column db-name="updated_by" name="updatedBy" type="String" />
+		<column db-name="deleted_on" name="deletedOn" type="Date" />
+		<column db-name="deleted_by" name="deletedBy" type="String" />
+		<column db-name="is_delete" name="isDelete" type="boolean" />
+
+		<!-- Other fields -->
+
+		<column db-name="transaction_date" name="transactionDate" type="Date" />
+		<column db-name="transaction_with" name="transactionWith" type="int" />
+		<column db-name="transaction_total" name="transactionTotal" type="long" />
+		<column db-name="note" name="note" type="String" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="transactionDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="id" return-type="Collection">
+			<finder-column name="id" />
+		</finder>
+
+	</entity>
+</service-builder>

@@ -1,0 +1,10 @@
+Bundle-Name: transaction-api
+Bundle-SymbolicName: transaction.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	transaction.exception,\
+	transaction.model,\
+	transaction.service,\
+	transaction.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../transaction-service/service.xml
